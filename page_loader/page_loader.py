@@ -31,11 +31,11 @@ def change_links_and_save_imgs(html, page_url, img_dir):
     soup = BeautifulSoup(html, 'html.parser')
 
     for img in soup.find_all('img'):
-        img_url = create_img_url(page_url, img['src'])
-        img_path = create_img_path(img_dir, img_url)
-        save_img(img_path, img_url)
-        img['src'] = img_path
-    print(soup.prettify(formatter="html5"))
+        if img['src'][0] == '/' and img['src'][1] != '/':
+            img_url = create_img_url(page_url, img['src'])
+            img_path = create_img_path(img_dir, img_url)
+            save_img(img_path, img_url)
+            img['src'] = img_path
     return soup.prettify(formatter="html5")
 
 
@@ -49,10 +49,8 @@ def create_img_path(img_dir, img_url):
 
 def create_img_url(page_url, img_url):
     parsed_url = urlparse(page_url)
-    parsed_img_url = urlparse(img_url)
-    starting_from_path = parsed_img_url._replace(scheme='', netloc='')
-    img_url = starting_from_path.geturl()
-    return f'{parsed_url[0]}://{parsed_url[1]}{img_url}'
+    scheme, netloc = parsed_url[0], parsed_url[1]
+    return f'{scheme}://{netloc}{img_url}'
 
 
 def save_img(save_to, img_url):

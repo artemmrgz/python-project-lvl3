@@ -9,9 +9,10 @@ from page_loader.page_loader import create_path, create_img_dir, change_links_an
 
 TEST_URL = 'https://ru.hexlet.io/courses'
 TEST_IMG_NAME = '/assets/professions/nodejs.png'
+FULL_IMG_URL = 'https://ru.hexlet.io//assets/professions/nodejs.png'
 TEST_HTML_NAME = 'ru-hexlet-io-courses.html'
 IMG_DIR = 'ru-hexlet-io-courses_files'
-TEST_IMG_URL = 'https://ru.hexlet.io/derivations/image/fill_webp/540/320/eyJpZCI6Ijk4YjY4ODdjMjVlOTI1OWVjOWQ0MDFkNzc3O' \
+TEST_IMG_URL = '/derivations/image/fill_webp/540/320/eyJpZCI6Ijk4YjY4ODdjMjVlOTI1OWVjOWQ0MDFkNzc3O' \
                'TEwNWM4LnBuZyIsInN0b3JhZ2UiOiJzdG9yZSJ9?signature=8b9d21429f1b423628e7a9c4521839809652b4a7f05db0bc83d4' \
                '5b6bf2658d14'
 
@@ -44,14 +45,15 @@ def test_change_links_and_save_imgs(fs):
     img_file = os.path.join(IMG_DIR, 'ru-hexlet-io-derivations-image-fill-webp-540-320-e.png')
     with open(locate('expected.html')) as f:
             expected = f.read()
+    assert os.path.exists(img_file)
     assert output_html == expected
     assert filecmp.cmp(locate('expected.bin'), img_file)
     assert filecmp.cmp(locate('expected.bin'), img_file, shallow=False)
 
 
 def test_create_img_path():
-    expected = 'ru-hexlet-io-courses_files/ru-hexlet-io-derivations-image-fill-webp-540-320-e.png'
-    output = create_img_path(IMG_DIR, TEST_IMG_URL)
+    expected = 'ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs.png'
+    output = create_img_path(IMG_DIR, FULL_IMG_URL)
     assert expected == output
 
 
