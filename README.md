@@ -13,3 +13,6 @@ Page loader (html)
 
 Page loader (including images)
 [![asciicast](https://asciinema.org/a/W6QTPqujRLlWTAj7ba06jbMUA.png)](https://asciinema.org/a/W6QTPqujRLlWTAj7ba06jbMUA)
+
+Page loader (including img, script, link tags)
+[![asciicast](https://asciinema.org/a/QJWTQYGziQz1n35zdIcESk5H5.png)](https://asciinema.org/a/QJWTQYGziQz1n35zdIcESk5H5)
