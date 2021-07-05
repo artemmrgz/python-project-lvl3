@@ -6,7 +6,11 @@ from urllib.parse import urlparse
 import logging
 
 
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s:%(message)s')
+logging.basicConfig(format='%(levelname)s:%(message)s')
+
+
+class PageLoadingError(Exception):
+    pass
 
 
 tags = {'img': 'src', 'link': 'href', 'script': 'src'}
@@ -18,11 +22,18 @@ def download(path_to_dir, base_url):
     file_path = create_file_path(path_to_dir, base_url)
     logging.debug(f'File path - {file_path}')
     files_dir = create_dir(file_path)
-    html_file = requests.get(base_url).text
-    logging.debug(f'Get request to {base_url}')
+    try:
+        r = requests.get(base_url)
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as errs:
+        raise PageLoadingError('Connection failed!') from errs
+    except requests.exceptions.ConnectionError as errc:
+        raise PageLoadingError('Connection error!') from errc
+    html_file = r.text
     assets, changed_file = prepare_assets(html_file, base_url, files_dir)
     save_file(file_path, changed_file)
-    save_resources(files_dir, assets)
+    save_resources(path_to_dir, assets)
+    return file_path
 
 
 def create_file_path(path_to_dir, base_url):
@@ -35,13 +46,12 @@ def create_file_path(path_to_dir, base_url):
 def create_dir(path_to_file):
     path_parts = os.path.splitext(path_to_file)
     dir_ = path_parts[0] + '_files'
-    logging.warning(f'dir {dir_} is about to be created,\
-                    dir with such name shouldn\'t exist')
     os.mkdir(dir_)
     return dir_
 
 
 def prepare_assets(html, base_url, files_dir):
+    _, dir_name = os.path.split(files_dir)
     soup = BeautifulSoup(html, 'html.parser')
     assets = []
     resources = filter(lambda x: is_local(base_url, x), soup.find_all(tags))
@@ -49,7 +59,7 @@ def prepare_assets(html, base_url, files_dir):
         tag = tags[resource.name]
         resource_url = create_resource_url(base_url, resource.get(tag))
         logging.debug(f'Resource url - {resource_url}')
-        resource_path = os.path.join(files_dir,
+        resource_path = os.path.join(dir_name,
                                      create_resource_path(resource_url))
         logging.debug(f'Resource path - {resource_path}')
         assets.append((resource_url, resource_path))
@@ -82,10 +92,17 @@ def create_resource_url(base_url, resource_url):
 
 
 def save_resources(files_dir, assets):
-    for url, path in assets:
+    for url_, path in assets:
         path_to_file = os.path.join(files_dir, path)
+        try:
+            r = requests.get(url_)
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as errs:
+            raise PageLoadingError(errs) from errs
+        except requests.exceptions.ConnectionError as errc:
+            raise PageLoadingError(errc) from errc
         with open(path_to_file, 'wb') as f:
-            f.write(requests.get(url).content)
+            f.write(r.content)
 
 
 def save_file(save_to, page):

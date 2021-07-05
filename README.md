@@ -16,3 +16,6 @@ Page loader (including images)
 
 Page loader (including img, script, link tags)
 [![asciicast](https://asciinema.org/a/QJWTQYGziQz1n35zdIcESk5H5.png)](https://asciinema.org/a/QJWTQYGziQz1n35zdIcESk5H5)
+
+Exceptions handling
+[![asciicast](https://asciinema.org/a/BPmbECKBYyo4MAfrDspkXBNfA.png)](https://asciinema.org/a/BPmbECKBYyo4MAfrDspkXBNfA)
