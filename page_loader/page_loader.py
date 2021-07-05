@@ -26,9 +26,9 @@ def download(path_to_dir, base_url):
         r = requests.get(base_url)
         r.raise_for_status()
     except requests.exceptions.HTTPError as errs:
-        raise PageLoadingError('Connection failed!') from errs
+        raise PageLoadingError('Connection failed') from errs
     except requests.exceptions.ConnectionError as errc:
-        raise PageLoadingError('Connection error!') from errc
+        raise PageLoadingError('Connection error') from errc
     html_file = r.text
     assets, changed_file = prepare_assets(html_file, base_url, files_dir)
     save_file(file_path, changed_file)
@@ -98,9 +98,9 @@ def save_resources(files_dir, assets):
             r = requests.get(url_)
             r.raise_for_status()
         except requests.exceptions.HTTPError as errs:
-            raise PageLoadingError(errs) from errs
+            raise PageLoadingError('Connection failed') from errs
         except requests.exceptions.ConnectionError as errc:
-            raise PageLoadingError(errc) from errc
+            raise PageLoadingError('Connection error') from errc
         with open(path_to_file, 'wb') as f:
             f.write(r.content)
 
