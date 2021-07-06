@@ -2,6 +2,7 @@ import os
 import re
 import requests
 from bs4 import BeautifulSoup
+from progress.bar import IncrementalBar
 from urllib.parse import urlparse
 import logging
 
@@ -92,17 +93,19 @@ def create_resource_url(base_url, resource_url):
 
 
 def save_resources(files_dir, assets):
-    for url_, path in assets:
-        path_to_file = os.path.join(files_dir, path)
-        try:
-            r = requests.get(url_)
-            r.raise_for_status()
-        except requests.exceptions.HTTPError as errs:
-            raise PageLoadingError('Connection failed') from errs
-        except requests.exceptions.ConnectionError as errc:
-            raise PageLoadingError('Connection error') from errc
-        with open(path_to_file, 'wb') as f:
-            f.write(r.content)
+    with IncrementalBar('Downloading resources', max=len(assets)) as bar:
+        for url_, path in assets:
+            path_to_file = os.path.join(files_dir, path)
+            try:
+                r = requests.get(url_)
+                r.raise_for_status()
+            except requests.exceptions.HTTPError as errs:
+                raise PageLoadingError('Connection failed') from errs
+            except requests.exceptions.ConnectionError as errc:
+                raise PageLoadingError('Connection error') from errc
+            with open(path_to_file, 'wb') as f:
+                f.write(r.content)
+            bar.next()
 
 
 def save_file(save_to, page):

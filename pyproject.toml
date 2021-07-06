@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hexlet-code"
-version = "0.3.2"
+version = "0.4.0"
 description = ""
 authors = ["Artem Marhaza <artemmrgz@gmail.com>"]
 packages = [
@@ -11,6 +11,7 @@ packages = [
 python = "^3.8"
 requests = "^2.25.1"
 beautifulsoup4 = "^4.9.3"
+progress = "^1.5"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"

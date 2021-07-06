@@ -130,6 +130,14 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 dev = ["pre-commit", "tox"]
 
 [[package]]
+name = "progress"
+version = "1.5"
+description = "Easy to use progress bars"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "py"
 version = "1.10.0"
 description = "library with cross-python path, ini-parsing, io, code, log facilities"
@@ -280,7 +288,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "aee9d8ba92b60accd7b9087aef5d291d96383d92fe467a139305cdab31c6c506"
+content-hash = "b9d30ff58e9ecba2c1a5e8b7949738b09626ac2cc68dace9cb5199cb80a7f481"
 
 [metadata.files]
 atomicwrites = [
@@ -385,6 +393,9 @@ packaging = [
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
+]
+progress = [
+    {file = "progress-1.5.tar.gz", hash = "sha256:69ecedd1d1bbe71bf6313d88d1e6c4d2957b7f1d4f71312c211257f7dae64372"},
 ]
 py = [
     {file = "py-1.10.0-py2.py3-none-any.whl", hash = "sha256:3b80836aa6d1feeaa108e046da6423ab8f6ceda6468545ae8d02d9d58d18818a"},
