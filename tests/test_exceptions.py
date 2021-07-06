@@ -14,7 +14,7 @@ def test_except_download():
         with tempfile.TemporaryDirectory() as tmpdir:
             with requests_mock.Mocker() as m:
                 m.get(BASE_URL, text='data')
-                download(os.path.join(tmpdir, 'abbglmg'), BASE_URL)
+                download(BASE_URL, os.path.join(tmpdir, 'abbglmg'))
 
 
 

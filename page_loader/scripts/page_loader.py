@@ -8,7 +8,7 @@ from page_loader.parser import cli_parser
 def main():
     args = cli_parser()
     try:
-        result = download(args.output, args.url)
+        result = download(args.url, args.output)
         print(f'Page was successfully downloaded into {result}')
     except PageLoadingError as err:
         logging.error(err)

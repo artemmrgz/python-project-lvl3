@@ -34,7 +34,7 @@ def test_download():
             m.get(BASE_URL, text=data)
             for link in LINKS:
                 m.get(link, text='data')
-            filepath = download(tmpdir, BASE_URL)
+            filepath = download(BASE_URL, tmpdir)
             file = os.path.join(tmpdir, FILE_NAME)
             with open(file) as fl:
                 output = fl.read()

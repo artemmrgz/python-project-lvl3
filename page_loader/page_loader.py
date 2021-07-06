@@ -19,7 +19,7 @@ MAX_FILENAME_LENGTH = 25
 MAX_RESOURCE_NAME_LENGTH = 50
 
 
-def download(path_to_dir, base_url):
+def download(base_url, path_to_dir):
     file_path = create_file_path(path_to_dir, base_url)
     logging.debug(f'File path - {file_path}')
     files_dir = create_dir(file_path)
