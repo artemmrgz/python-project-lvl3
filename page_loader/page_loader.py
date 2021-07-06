@@ -22,7 +22,6 @@ MAX_RESOURCE_NAME_LENGTH = 50
 def download(base_url, path_to_dir):
     file_path = create_file_path(path_to_dir, base_url)
     logging.debug(f'File path - {file_path}')
-    files_dir = create_dir(file_path)
     try:
         r = requests.get(base_url)
         r.raise_for_status()
@@ -31,6 +30,7 @@ def download(base_url, path_to_dir):
     except requests.exceptions.ConnectionError as errc:
         raise PageLoadingError('Connection error') from errc
     html_file = r.text
+    files_dir = create_dir(file_path)
     assets, changed_file = prepare_assets(html_file, base_url, files_dir)
     save_file(file_path, changed_file)
     save_resources(path_to_dir, assets)
