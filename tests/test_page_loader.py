@@ -42,6 +42,17 @@ def test_download():
             assert expected == output
 
 
+def test_connection_error():
+    invalid_url = 'https://badsite.com'
+    with requests_mock.Mocker() as m:
+        m.get(invalid_url, exc=requests.exceptions.ConnectionError)     
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            assert not os.listdir(tmpdirname)
+            with pytest.raises(Exception):
+                assert download(invalid_url, tmpdirname)
+            assert not os.listdir(tmpdirname)
+
+
 def test_create_file_path():
     with tempfile.TemporaryDirectory() as tmpdir:
         expected = os.path.join(tmpdir, 'ru-hexlet-io-courses.html')

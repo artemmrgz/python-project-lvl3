@@ -71,8 +71,9 @@ def prepare_assets(html, base_url, files_dir):
 def is_local(base_url, tag):
     url_ = tag.get(tags[tag.name])
     if url_:
-        netloc = urlparse(base_url).netloc
-        return (url_[0] == '/' and url_[1] != '/') or netloc in url_
+        base_netloc = urlparse(base_url).netloc
+        url_netloc = urlparse(url_).netloc
+        return (url_[0] == '/' and url_[1] != '/') or base_netloc == url_netloc
 
 
 def create_resource_path(resource_url):
