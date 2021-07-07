@@ -18,6 +18,7 @@ def main():
         sys.exit(1)
     except FileNotFoundError:
         logging.error('No such file or directory')
+        sys.exit(1)
     except PermissionError:
         logging.error('Lack of suitable permission to perform the action')
         sys.exit(1)
